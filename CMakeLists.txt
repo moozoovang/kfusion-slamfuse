@@ -87,11 +87,11 @@ if (CUDA_FOUND)
 
     set(kfusion_cuda_srcs kernels.cu)
 	    	
-	cuda_add_library(${appname}-cuda    SHARED  ${kfusion_cuda_srcs}  kfusion_library.cpp OPTIONS -O3 -std=c++11 -Xcompiler -fPIC -D_MWAITXINTRIN_H_INCLUDED -D_FORCE_INLINES)
+	cuda_add_library(${appname}-cuda    SHARED  ${kfusion_cuda_srcs}  kfusion_library.cpp OPTIONS -O3 -std=c++11 -Xcompiler -fPIC -D_MWAITXINTRIN_H_INCLUDED -D_FORCE_INLINES -I${CMAKE_CURRENT_SOURCE_DIR}/cuda_headers )
 	target_link_libraries(${appname}-cuda   ${common_libraries})	
+	target_include_directories(${appname}-cuda  PUBLIC ./cuda_headers )
     install(TARGETS ${appname}-cuda  DESTINATION  lib/)
 
-    target_include_directories(${appname}-cuda  PRIVATE  ./cuda_headers )
     
 	generate_slam_library(${appname}-cuda "")
 	
