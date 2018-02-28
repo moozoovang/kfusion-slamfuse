@@ -32,8 +32,6 @@ endif(APPLE)
 
 include_directories(${SLAMBENCH_INCLUDE_DIR})
 include_directories(./)
-include_directories(./include)
-include_directories(./thirdparty)
    
  # ----------------- CPP VERSION ----------------- 
 
@@ -54,6 +52,8 @@ install(TARGETS ${appname}-openmp  DESTINATION  lib/)
  
 generate_slam_library(${appname}-cpp "")
 generate_slam_library(${appname}-openmp "-lgomp -fopenmp")
+    target_include_directories(${appname}-cpp  PRIVATE  ./cpp_headers )
+    target_include_directories(${appname}-openmp  PRIVATE  ./cpp_headers )
 
 
  #  ----------------- OCL VERSION ----------------- 
@@ -63,6 +63,7 @@ find_package(OpenCL)
 if (OPENCL_FOUND) 
    include_directories(${OPENCL_INCLUDE_DIRS})
     add_library(${appname}-opencl  kernels_ocl.cpp common_opencl.cpp  kfusion_library.cpp)
+    target_include_directories(${appname}-opencl  PRIVATE  ./cpp_headers )
     target_link_libraries(${appname}-opencl   ${common_libraries} ${OPENCL_LIBRARIES})	
     SET_TARGET_PROPERTIES(${appname}-opencl PROPERTIES COMPILE_FLAGS "-fPIC")
     
@@ -90,6 +91,8 @@ if (CUDA_FOUND)
 	target_link_libraries(${appname}-cuda   ${common_libraries})	
     install(TARGETS ${appname}-cuda  DESTINATION  lib/)
 
+    target_include_directories(${appname}-cuda  PRIVATE  ./cuda_headers )
+    
 	generate_slam_library(${appname}-cuda "")
 	
 endif(CUDA_FOUND)

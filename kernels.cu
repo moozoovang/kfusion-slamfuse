@@ -10,8 +10,8 @@
  */
 
 #include <constant_parameters.h>
-#include <kernels_cuda.h>
-#include <marching_cube_cuda.h>
+#include <kernels.h>
+#include <marching_cube.h>
 
 #ifdef __APPLE__
 	#include <mach/clock.h>
